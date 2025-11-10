@@ -1,4 +1,4 @@
-<img width="127" height="666" alt="image" src="https://github.com/user-attachments/assets/c2bd112d-afa3-4b74-b26c-f1a85f2f67d5" />#### envs and installation
+#### envs and installation
 ```bash
 conda create -n pku python=3.9
 conda activate pku
