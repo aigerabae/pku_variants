@@ -21,15 +21,14 @@ Now need to examine the report and see if its good or not. Next step - trimming
 
 for a single pair of files:
 ```bash
-fastp \
- -i /path/input_R1.fastq.gz \ # input files
- -I /path/input_R2.fastq.gz \
--o /path/output_R1.fastq.gz \ # output files
- -O /path/output_R2.fastq.gz \
---thread 20 -g -c -y 30 \
---html /path/output_report.html \ # quality reports
---json /path/output_report.json \
---report_title report.title.prefix 
+fastp -i 
+-I
+-o
+-O
+--thread 20 -g -c -y 30
+--html 
+--json
+--report_title  
 ```
 
 first identifying file names for each sample
