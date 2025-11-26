@@ -55,18 +55,21 @@ Adapter content should pass too, and mine does.
 
 Source: https://www.reddit.com/r/bioinformatics/comments/1et5gt7/fastqc_evaluation_parameters_for_variant_calling/
 #### mapping reads with BWA
-I downloaded RefSeq GRCh38.p14 reference genome and indexed it with BWA (runs from ref directory):
-```bash
-bwa index GCF_000001405.40_GRCh38.p14_genomic.fna
-```
+I downloaded GRCh38 reference genome, version specific for alignment pipelines (from ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz) and indexed it with BWA (runs from ref directory):
+Source: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
 
+I also downloaded BWA indexed file for it:
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.bwa_index.tar.gz
+
+
+After it finished downloading, I will try this command (might want to extract the bwa index tarball into the folder)
 I mapped our reads to it (runs from root directory):
 ```bash
 for line in $(cat ../pairs.txt); do
     echo "Processing file: $line"
     bwa mem \
     -M -t 20\
-    ref/GCF_000001405.40_GRCh38.p14_genomic.fna \ # reference genome
+    ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz \ # reference genome
     fastp/${line}R1_trimmed.fastq.qz \ # trimmed forward reads
     fastp/${line}R2_trimmed.fastq.qz |\ # trimmed reverse reads
     samtools view -b > bams/{line}.bam
