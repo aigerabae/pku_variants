@@ -40,10 +40,20 @@ fastqc again:
 ```bash
 cd fastp
 fastqc -t 24 *fastq.gz* -o fastqc2/
+multiqc ./ -o multiqc_output -n pku2
 ```
 
-Not sure if it improved by a lot but we roll.
+Per base sequence quality tells you if there was any systematic drop in quality during cycles, this is an important metric, and mine is ok.  
+Per sequence quality scores tells you if there's a group of sequences that have an overall low quality, also important, mine is ok.  
+! Per base sequence content might fail because of some nonrandom distribution in the first bases. Often due to technical quirks and not a huge problem, especially if really only in the initial bases (in our case).   
+! Per sequence GC content isn't expected to pass in exomes or gene panels. Should pass for genomes.  
+Per base N content tells you if there's any hard-to-call position in reads, if it fails it can be due to a sequencing issue, mine is ok.  
+! Sequence length distribution should pass for untrimmed reads, mine are trimmed so it's expected that not all of them have the same length.  
+! Sequence duplication levels - depends on the methods. If it's a gene panel where each base was sequenced 500x, then you're going to have some duplicated sequences and it's ok. Transcriptomes also are ok with some duplication. Amplicon sequencing (Ampliseq) also gets flagged here but it's ok. If it's a genome or an exome performed with hybrid capture, then this should pass, if there's duplications it might indicate that the starting library was too diluted pre-amplification, you could lose variants even with somehow decent coverage.  
+Adapter content should pass too, and mine does.  
+!!! Overrepresented sequences - doesn't pass; possibly because of extremely high duplication levels
 
+Source: https://www.reddit.com/r/bioinformatics/comments/1et5gt7/fastqc_evaluation_parameters_for_variant_calling/
 #### mapping reads with BWA
 I downloaded RefSeq GRCh38.p14 reference genome and indexed it with BWA (runs from ref directory):
 ```bash
@@ -62,6 +72,7 @@ for line in $(cat ../pairs.txt); do
     samtools view -b > bams/{line}.bam
 done
 ```
+
 
 To deal with technical replicates I will merge them to increase quality of variant calling. Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4137624/
 
