@@ -76,7 +76,76 @@ done < pairs.txt
 
 ```
 
+Sorting bam files:
+```bash
+mkdir bams/sorting
+while read -r line; do
+    echo "Processing file: $line"
+    samtools collate -@ 20 -Ou bams/${line}.bam | samtools fixmate -@ 20 -m - - | samtools sort -@ 20 - -o bams/sorting/${line}.bam
+done < pairs.txt
+```
+
 To deal with technical replicates I will merge them to increase quality of variant calling. Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4137624/
+```bash
+mkdir bams/merged
+echo "bams/sorting/control1a.bam
+bams/sorting/control1b.bam
+bams/sorting/control1c.bam
+bams/sorting/control1d.bam
+bams/sorting/control1e.bam
+bams/sorting/control1f.bam" > files1.txt
+samtools merge -b files1.txt -o bams/merged/control1.bam
+echo "bams/sorting/control14a.bam
+bams/sorting/control14b.bam
+bams/sorting/control14c.bam
+bams/sorting/control14d.bam
+bams/sorting/control14e.bam
+bams/sorting/control14f.bam" > files1.txt
+samtools merge -b files1.txt -o bams/merged/control14.bam
+echo "bams/sorting/control3a.bam
+bams/sorting/control3b.bam
+bams/sorting/control3c.bam
+bams/sorting/control3d.bam
+bams/sorting/control3e.bam
+bams/sorting/control3f.bam" > files1.txt
+samtools merge -b files1.txt -o bams/merged/control3.bam
+```
+
+Adding all other files there:
+```bash
+cp bams/sorting/{case1.bam,case2.bam,case3.bam,case4.bam,case5.bam,case6.bam,case7.bam,case8.bam,case9.bam,case10.bam,control2.bam,control4.bam,control5.bam,control6.bam,control7.bam,control8.bam,control9.bam,control10.bam,control11.bam,control12.bam,control13.bam} bams/merged/
+```
+
+Marking duplicates:
+```bash
+mkdir bams/dups
+while read -r line; do
+    echo "Processing file: $line"
+    samtools markdup -@ 20 -d 100 bams/merged/${line}.bam bams/dups/${line}.bam
+done < pairs.txt
+```
+
+Indexing:
+```bash
+mkdir bams/flagstat_index
+while read -r line; do
+    echo "Processing file: $line"
+    samtools index -b bams/dups/${line}.bam 
+    samtools flagstat bams/dups/${line}.bam  > bams/flagstat_index/${line}.output.flagstat
+done < pairs.txt
+```
+
+Mpileup (estimates a genotype likelihood for each variant):
+```bash
+find bams/merged/ -type f -name "*" > list.txt
+while read -r line; do
+    bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt -r CHROM:POS 
+done < pairs.txt
+```
+
+Mpileup gives his error:
+Could not parse reg line: CHROM:POS
+Could not parse the regions: CHROM:POS
 
 
 #### Source
