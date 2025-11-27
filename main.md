@@ -65,17 +65,16 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38
 After it finished downloading, I will try this command (might want to extract the bwa index tarball into the folder)
 I mapped our reads to it (runs from root directory):
 ```bash
-for line in $(cat ../pairs.txt); do
+while read -r line; do
     echo "Processing file: $line"
-    bwa mem \
-    -M -t 20\
-    ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz \ # reference genome
-    fastp/${line}R1_trimmed.fastq.qz \ # trimmed forward reads
-    fastp/${line}R2_trimmed.fastq.qz |\ # trimmed reverse reads
-    samtools view -b > bams/{line}.bam
-done
-```
+    bwa mem -M -t 20 \
+        ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna \
+        fastp/${line}R1_trimmed.fastq.gz \
+        fastp/${line}R2_trimmed.fastq.gz \
+    | samtools view -b -o bams/${line}.bam
+done < pairs.txt
 
+```
 
 To deal with technical replicates I will merge them to increase quality of variant calling. Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4137624/
 
