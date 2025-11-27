@@ -117,6 +117,8 @@ Adding all other files there:
 cp bams/sorting/{case1.bam,case2.bam,case3.bam,case4.bam,case5.bam,case6.bam,case7.bam,case8.bam,case9.bam,case10.bam,control2.bam,control4.bam,control5.bam,control6.bam,control7.bam,control8.bam,control9.bam,control10.bam,control11.bam,control12.bam,control13.bam} bams/merged/
 ```
 
+I manually edited pairs.txt to remove 1a,1b,1c,etc. and only leave 1,3,14 for merged files
+
 #### Marking duplicates:
 ```bash
 mkdir bams/dups
@@ -136,17 +138,12 @@ while read -r line; do
 done < pairs.txt
 ```
 
-#### Mpileup (estimates a genotype likelihood for each variant):
-Important: this code runs it on non-indexed, no duplicate marked files. Might want to re-run with duplicates marked
-
+#### Variant calling:
 ```bash
-find bams/merged/ -type f -name "*" > list.txt
-while read -r line; do
-    bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt 
-done < pairs.txt
+find bams/dups/ -type f -name "*.bam" > list.txt
+mkdir vcf
+bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt  | bcftools call --threads 20 -f GQ,GP -m -Oz -o vcf/output.vcf.gz
 ```
-
-
 
 
 #### Source
