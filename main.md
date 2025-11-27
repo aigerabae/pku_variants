@@ -53,16 +53,17 @@ Per base N content tells you if there's any hard-to-call position in reads, if i
 Adapter content should pass too, and mine does.  
 !!! Overrepresented sequences - doesn't pass; possibly because of extremely high duplication levels
 
-Source: https://www.reddit.com/r/bioinformatics/comments/1et5gt7/fastqc_evaluation_parameters_for_variant_calling/
+Source: https://www.reddit.com/r/bioinformatics/comments/1et5gt7/fastqc_evaluation_parameters_for_variant_calling/  
+
 #### mapping reads with BWA
 I downloaded GRCh38 reference genome, version specific for alignment pipelines (from ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz) and indexed it with BWA (runs from ref directory):
 Source: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
 
-I also downloaded BWA indexed file for it:
+I also downloaded BWA indexed file for it (had to download on a different device because it kept getting corrupted):
 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.bwa_index.tar.gz
 
 
-After it finished downloading, I will try this command (might want to extract the bwa index tarball into the folder)
+After it finished downloading, I will try this command (first extracted the bwa index tarball into the folder)
 I mapped our reads to it (runs from root directory):
 ```bash
 while read -r line; do
@@ -76,7 +77,7 @@ done < pairs.txt
 
 ```
 
-Sorting bam files:
+#### Sorting bam files:
 ```bash
 mkdir bams/sorting
 while read -r line; do
@@ -116,7 +117,7 @@ Adding all other files there:
 cp bams/sorting/{case1.bam,case2.bam,case3.bam,case4.bam,case5.bam,case6.bam,case7.bam,case8.bam,case9.bam,case10.bam,control2.bam,control4.bam,control5.bam,control6.bam,control7.bam,control8.bam,control9.bam,control10.bam,control11.bam,control12.bam,control13.bam} bams/merged/
 ```
 
-Marking duplicates:
+#### Marking duplicates:
 ```bash
 mkdir bams/dups
 while read -r line; do
@@ -125,7 +126,7 @@ while read -r line; do
 done < pairs.txt
 ```
 
-Indexing:
+#### Indexing:
 ```bash
 mkdir bams/flagstat_index
 while read -r line; do
@@ -135,8 +136,9 @@ while read -r line; do
 done < pairs.txt
 ```
 
+#### Mpileup (estimates a genotype likelihood for each variant):
 Important: this code runs it on non-indexed, no duplicate marked files. Might want to re-run with duplicates marked
-Mpileup (estimates a genotype likelihood for each variant):
+
 ```bash
 find bams/merged/ -type f -name "*" > list.txt
 while read -r line; do
