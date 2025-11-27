@@ -145,6 +145,7 @@ mkdir vcf
 bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt  | bcftools call --threads 20 -f GQ,GP -m -Oz -o vcf/output.vcf.gz
 ```
 
+I have vcf file. Next steps - QC and analysis. 
 
 #### Source
 Follows a tutorial from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
