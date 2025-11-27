@@ -135,17 +135,16 @@ while read -r line; do
 done < pairs.txt
 ```
 
+Important: this code runs it on non-indexed, no duplicate marked files. Might want to re-run with duplicates marked
 Mpileup (estimates a genotype likelihood for each variant):
 ```bash
 find bams/merged/ -type f -name "*" > list.txt
 while read -r line; do
-    bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt -r CHROM:POS 
+    bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt 
 done < pairs.txt
 ```
 
-Mpileup gives his error:
-Could not parse reg line: CHROM:POS
-Could not parse the regions: CHROM:POS
+
 
 
 #### Source
