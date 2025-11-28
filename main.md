@@ -190,14 +190,14 @@ Showed that 3/4 are likely deleterious by SIFT and Polyphen
 plink --bfile test5 --freq case-control --out counts --allow-no-sex
 
 All SNPs where MAF for cases is higher than for controls
-  12   12:102851701    A    C          0.1            0         20         28  
-  12   12:102852815    A    G         0.15            0         20         28  
-  12   12:102866599    T    C          0.1            0         20         28  
   12   12:102866600    A    G          0.2            0         20         28  
-  12   12:102866641    T    C          0.1            0         20         28  
-  12   12:102894812    A    G         0.15            0         20         28  
-  12   12:102917377    A    G            0      0.03571         20         28  
   12   12:102852929    T    C         0.25      0.03571         20         28  
+  12   12:102852815    A    G         0.15            0         20         28  
+  12   12:102894812    A    G         0.15            0         20         28  
+  12   12:102851701    A    C          0.1            0         20         28  
+  12   12:102866599    T    C          0.1            0         20         28  
+  12   12:102866641    T    C          0.1            0         20         28  
+  12   12:102917377    A    G            0      0.03571         20         28  
 
   12   12:102840330    T    G         0.15       0.1071         20         28  
   12   12:102843690    G    C          0.2       0.1071         20         28  
@@ -209,6 +209,13 @@ All SNPs where MAF for cases is higher than for controls
   12   12:102917009    A    G         0.35       0.2143         20         28  
   12   12:102917201    G    T          0.2       0.1071         20         28  
 
+ plink2 --bfile test5 --keep-if PHENO1==2 --make-bed --out mydata_casesonly
+ plink2 --bfile test5 --keep-if PHENO1==1 --make-bed --out mydata_controlssonly
+
+plink --bfile mydata_casesonly --recode vcf --out cases
+plink --bfile mydata_controlssonly --recode vcf --out controls
+
+Samples 2 and 8 (/10) don't have any of the mutations of the ones most exclusive to cases (the first block in SNPs by MAFs)' the rest have 1-4 of them present (/8)
 
 #### Source
 Follows a tutorial from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
