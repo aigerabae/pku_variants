@@ -145,7 +145,7 @@ mkdir vcf
 bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-ref ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna -b list.txt  | bcftools call --threads 20 -f GQ,GP -m -Oz -o vcf/output.vcf.gz
 ```
 
-I have vcf file. Next steps - QC and analysis. 
+I have vcf file. Next steps - QC and analysis.   
 
 QC in plink:
 ```bash
@@ -157,25 +157,34 @@ sed 's|bams/dups/||g' test4.fam -i
 plink2 --bfile test4 --set-all-var-ids @:# --make-bed --out test5
 ```
 
-I manually added 1 for controls and 2 for cases in test4.fam to differentiate between cases and controls
-I also used test4 to generate annotations with all info available from https://www.snp-nexus.org/v4/results/7ec21dde/ and saved the output info vcf1_vcf/
+I manually added 1 for controls and 2 for cases in test4.fam to differentiate between cases and controls  
+I also used test4 to generate annotations with all info available from https://www.snp-nexus.org/v4/results/7ec21dde/ and saved the output info vcf1_vcf/  
 
 ```bash
-plink --bfile test5 --model --allow-no-sex
+plink --bfile test5 --model --allow-no-sex  
 ```
 
-There are 4 SNPs with p<0.05:
-grep "12:102866600" vcf1_vcf/*
-grep "12:102852929" vcf1_vcf/*
-grep "12:102852815" vcf1_vcf/*
-grep "12:102894812" vcf1_vcf/*
+There are 4 SNPs with p<0.05 (some are repeated bc it used several models to test):    
+CHR            SNP   A1   A2     TEST            AFF          UNAFF        CHISQ   DF            P  
+  12   12:102866600    A    G    TREND           4/16           0/28         6.72    1     0.009534  
+  12   12:102866600    A    G  ALLELIC           4/16           0/28        6.109    1      0.01345  
+  12   12:102852929    T    C    TREND           5/15           1/27        5.714    1      0.01683  
+  12   12:102852929    T    C  ALLELIC           5/15           1/27        4.898    1      0.02689  
+  12   12:102852815    A    G    TREND           3/17           0/28          4.8    1      0.02846  
+  12   12:102894812    A    G    TREND           3/17           0/28          4.8    1      0.02846  
+  12   12:102852815    A    G  ALLELIC           3/17           0/28         4.48    1      0.03429  
+  12   12:102894812    A    G  ALLELIC           3/17           0/28         4.48    1      0.03429  
 
- CHR            SNP   A1   A2     TEST            AFF          UNAFF        CHISQ   DF            P
-  12   12:102866600    A    G    TREND           4/16           0/28         6.72    1     0.009534
-  12   12:102852929    T    C    TREND           5/15           1/27        5.714    1      0.01683
-  12   12:102852815    A    G    TREND           3/17           0/28          4.8    1      0.02846
-  12   12:102894812    A    G    TREND           3/17           0/28          4.8    1      0.02846
-  
+
+Searching for those SNPs in annotation folder:  
+grep "12:102866600" vcf1_vcf/*  
+grep "12:102852929" vcf1_vcf/*  
+grep "12:102852815" vcf1_vcf/*  
+grep "12:102894812" vcf1_vcf/*  
+
+Showed that 3/4 are likely deleterious by SIFT and Polyphen  
+
+
 
 #### Source
 Follows a tutorial from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
