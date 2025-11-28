@@ -147,5 +147,35 @@ bcftools mpileup --threads 20 -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD --fasta-r
 
 I have vcf file. Next steps - QC and analysis. 
 
+QC in plink:
+```bash
+plink --vcf output2.vcf --make-bed --out test
+plink --bfile test --geno 0.02 --make-bed --out test2
+plink --bfile test2 --mind 0.02 --make-bed --out test3
+plink --bfile test3 --maf 0.0001 --make-bed --out test4
+sed 's|bams/dups/||g' test4.fam -i
+plink2 --bfile test4 --set-all-var-ids @:# --make-bed --out test5
+```
+
+I manually added 1 for controls and 2 for cases in test4.fam to differentiate between cases and controls
+I also used test4 to generate annotations with all info available from https://www.snp-nexus.org/v4/results/7ec21dde/ and saved the output info vcf1_vcf/
+
+```bash
+plink --bfile test5 --model --allow-no-sex
+```
+
+There are 4 SNPs with p<0.05:
+grep "12:102866600" vcf1_vcf/*
+grep "12:102852929" vcf1_vcf/*
+grep "12:102852815" vcf1_vcf/*
+grep "12:102894812" vcf1_vcf/*
+
+ CHR            SNP   A1   A2     TEST            AFF          UNAFF        CHISQ   DF            P
+  12   12:102866600    A    G    TREND           4/16           0/28         6.72    1     0.009534
+  12   12:102852929    T    C    TREND           5/15           1/27        5.714    1      0.01683
+  12   12:102852815    A    G    TREND           3/17           0/28          4.8    1      0.02846
+  12   12:102894812    A    G    TREND           3/17           0/28          4.8    1      0.02846
+  
+
 #### Source
 Follows a tutorial from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
