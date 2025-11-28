@@ -219,3 +219,19 @@ Samples 2 and 8 (/10) don't have any of the mutations of the ones most exclusive
 
 #### Source
 Follows a tutorial from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
+
+Might want to redo variant calling using GATK HaplotypeCaller (germline) - better accuracy. 
+
+Using GATK best practices workflow for small variant calling:
+```bash
+mkdir gatk-workflows
+cd gatk-workflows
+mkdir inputs
+wget https://github.com/broadinstitute/cromwell/releases/download/33.1/cromwell-33.1.jar
+git clone https://github.com/gatk-workflows/seq-format-validation.git
+docker pull broadinstitute/gatk:4.1.3.0
+docker run -it -v /home/aygera/biostar/NCB/PKU/:/home broadinstitute/gatk:4.1.3.0 bash
+echo "chr12:" > inputs/intervals.list
+
+java -jar gatk-package-4.6.2.0-local.jar CreateSequenceDictionary R=/media/aygera/external_disk/biostar/NCB/PKU/ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna O=/media/aygera/external_disk/biostar/NCB/PKU/ref/ref.dict
+```
