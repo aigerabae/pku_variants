@@ -157,6 +157,8 @@ sed 's|bams/dups/||g' test4.fam -i
 plink2 --bfile test4 --set-all-var-ids @:# --make-bed --out test5
 ```
 
+That leaves us with 29 SNPs, all in the region of PAH gene (we removed low quality SNPs, SNPs with high missingness rate, monomorphic SNPs)  
+
 I manually added 1 for controls and 2 for cases in test4.fam to differentiate between cases and controls  
 I also used test4 to generate annotations with all info available from https://www.snp-nexus.org/v4/results/7ec21dde/ and saved the output info vcf1_vcf/  
 
