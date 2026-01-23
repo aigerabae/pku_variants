@@ -131,3 +131,5 @@ Follows a pipeline from https://www.protocols.io/view/a-standard-pipeline-for-pr
 
 
 The variants arent mathching with previous results; might want to change the approach to remove or relax the filters at PLINK stage; note that snpnexus only allows 10.000 variants at a time; if i keep only variants shown in 1 person would it change anything? also check the indexing stuff. So if i just remove monomorphic snps let's see the result and then look up whih ones exist in the database and just use them
+
+Although... I checked it out and there are variants with only 1 person meaning they weren't filtered out. so it shouldn't be a problem
