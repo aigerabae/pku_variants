@@ -109,17 +109,22 @@ QC in plink:
 ```bash
 cd vcf
 gunzip -c output.vcf.gz > output2.vcf
-plink --vcf output2.vcf --make-bed --out test
-plink --bfile test --geno 0.02 --make-bed --out test2
-plink --bfile test2 --mind 0.02 --make-bed --out test3
-plink --bfile test3 --maf 0.0001 --make-bed --out test4
+plink --vcf output2.vcf --make-bed --double-id --out test
+plink --bfile test --geno 0.02 --make-bed --out test2 --double-id
+plink --bfile test2 --mind 0.02 --make-bed --out test3 --double-id
+plink --bfile test3 --maf 0.0001 --make-bed --out test4 --double-id
+sed 's|/media/aygera/external_disk/biostar/NCB/pku2/||g' test4.fam -i
+sed 's|/media/aygera/external_disk/biostar/NCB/PKU/||g' test4.fam -i
 sed 's|bams/dups/||g' test4.fam -i
+sed 's|_||g' test4.fam -i
+sed 's|.bam||g' test4.fam -i
 plink2 --bfile test4 --set-all-var-ids @:# --make-bed --out test5
+plink2 --bfile test5 --export vcf --out test5
 ```
 
-That leaves us with 29 SNPs, all in the region of PAH gene (we removed low quality SNPs, SNPs with high missingness rate, monomorphic SNPs)  
+That leaves us with 53 SNPs, all in the region of PAH gene (we removed low quality SNPs, SNPs with high missingness rate, monomorphic SNPs)  
 
-I used test4 to generate annotations with all info available from https://www.snp-nexus.org/v4/results/7ec21dde/ and saved the output info vcf1_vcf/  
+I used test5 to generate annotations with all info available from https://www.snp-nexus.org/v4/
 
 #### Source
 Follows a pipeline from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
