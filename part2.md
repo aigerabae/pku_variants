@@ -134,3 +134,9 @@ The variants arent mathching with previous results; might want to change the app
 
 Although... I checked it out and there are variants with only 1 person meaning they weren't filtered out. so it shouldn't be a problem
 Okay the problem is likely in those 3 variants that i didn't find in PKU database. migh just be a search in pdf problem?
+
+alright, the problem is in different transcripts. since this is dna seq and not rna we can't tell which splicing transcriiy will be made, so its for best to report any available
+for that i might want to extract all variants in the BIOPKU database and just look ip that?
+i would need to account for repeats tho
+
+i would want to go back to the hidden SIFT and PolyPhen sheets and have all available mutations for any SNP to search in the BIOPKU
