@@ -140,3 +140,12 @@ for that i might want to extract all variants in the BIOPKU database and just lo
 i would need to account for repeats tho
 
 i would want to go back to the hidden SIFT and PolyPhen sheets and have all available mutations for any SNP to search in the BIOPKU
+
+
+
+Plot PCA:
+```R
+eigenvec_table <- read.table('plink.eigenvec')
+plot(eigenvec_table[3:6])
+```
+No clustering appears here.
