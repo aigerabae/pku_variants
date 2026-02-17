@@ -149,3 +149,5 @@ I used test4 to generate annotations with all info available from https://www.sn
 
 #### Source
 Follows a pipeline from https://www.protocols.io/view/a-standard-pipeline-for-processing-short-read-sequ-c6ygzftw.pdf
+
+I used it instead of GATK because this is amplicon sequencing for which GATK is not optimized; it is recommended to use something like mpileup. Source: https://gatk.broadinstitute.org/hc/en-us/community/posts/360057582511-HaplotypeCaller-data-generated-from-amplicon-sequencing
