@@ -31,4 +31,11 @@ Installing GATK haplotypecaller via docker:
 docker pull broadinstitute/gatk
 ```
 
-
+Running haplotypecaller (not customized, just example command):
+```bash
+ gatk --java-options "-Xmx4g" HaplotypeCaller  \
+   -R Homo_sapiens_assembly38.fasta \
+   -I input.bam \
+   -O output.g.vcf.gz \
+   -ERC GVCF
+```
