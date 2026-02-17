@@ -55,3 +55,31 @@ sudo mv nextflow /usr/local/bin
 # might need to do this is nextflow doesn't work:
 # sudo chmod 715 /usr/local/bin/nextflow 
 ```
+
+Installing cruk-ci ampliseq pipeline: https://github.com/crukci-bioinformatics/ampliconseq?tab=readme-ov-file#introduction   
+```bash
+nextflow pull crukci-bioinformatics/ampliconseq -r 1.0
+# not required, is supposed to be done by nextflow but i did it anyway:
+# docker pull crukcibioinformatics/ampliconseq
+```
+
+Running cruk-ci ampliseq pipeline: https://github.com/crukci-bioinformatics/ampliconseq?tab=readme-ov-file#introduction  
+```bash
+mkdir /mnt/harddisk/biostar/NCB/pku2/crukci_pipeline/vep_cache
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
+     -main-script download_vep_cache.nf \
+     -with-docker \
+     --vepCacheDir /mnt/harddisk/biostar/NCB/pku2/crukci_pipeline/vep_cache \
+     --vepSpecies homo_sapiens \
+     --vepAssembly GRCh38
+
+# didn't do yet
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
+     -config ampliconseq.config \
+     -with-singularity \
+     -profile bigserver \
+     -with-report ampliconseq_report.html \
+     -with-timeline ampliconseq_timeline.html
+```
+
+Need to prepapre config file, amplicon file, and sample sheet.
