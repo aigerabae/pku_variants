@@ -111,11 +111,16 @@ for i in *.bam; do samtools index "$i"; done
 7) change ref genome version in config file to grch38  
 8) after i downloaded vep chache manually i added directory of vep cache to config file
 9) i added profile to config file to allocate 30 gb of memory and 20 cpus to the process
+10) i added homo_sapiens folders inside vep cache because it wasn't loading it bcause it didn't see it. after it stopped you need to restart it with resume flag!
+```bash
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt -resume
+```
 
 I could also run it outside of container like this but it has an issue with system permissions this way so i decided to keep using it in side docker
 ```bash
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker
 ```
+
 
 Config file:
 ```
