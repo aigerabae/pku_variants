@@ -115,6 +115,10 @@ for i in *.bam; do samtools index "$i"; done
 ```bash
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt -resume
 ```
+11) unzip vep cache with
+```bash
+tar -xvzf homo_sapiens_vep_115_GRCh38.tar.gz
+```
 
 I could also run it outside of container like this but it has an issue with system permissions this way so i decided to keep using it in side docker
 ```bash
