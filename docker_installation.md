@@ -73,6 +73,9 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
      --vepSpecies homo_sapiens \
      --vepAssembly GRCh38
 
+# it didn't download cash so I downloaded it manually:
+curl -O https://ftp.ensembl.org/pub/release-115/variation/indexed_vep_cache/homo_sapiens_vep_115_GRCh38.tar.gz
+
 # didn't do yet
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
      -config ampliconseq.config \
@@ -83,3 +86,23 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
 ```
 
 Need to prepapre config file, amplicon file, and sample sheet.
+
+docker run -it -v ~/biostar/NCB/pku2/:/home crukcibioinformatics/ampliconseq bash
+cd home/crukci_pipeline/
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt
+
+What I had to do manually:
+1) i copied sorted bam files from pku1 and pku2 launces into input folder
+2) i had to add paths to those bam files in sample sheets
+3) i duplicated dict file in ref genome and renamed it to have the same name as main ref file
+4) changed chromosomes in amplicon file to chr12 instead of just 12
+5) i initially copied ref file into input folder but it also needs indexing and other files (like fai, etc.) so i changed directory to the one containing all ref files from previous analysis
+6) do sorted bam file indexing in input folder
+I did it outside of that docker container because it didn't have conda:
+```bash
+conda create --override-channels -c conda-forge -c bioconda -c default -n samtools samtools
+conda activate samtools
+for i in *.bam; do samtools index "$i"; done
+```
+7) change ref genome version in config file to grch38  
+8) after i downloaded vep chache manually i added directory of vep cache to config file  
