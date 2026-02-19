@@ -157,3 +157,4 @@ profiles {
 ```
 
 It worked! I have a file with variants per individual, not exactly a vcf but I should make some use of it. annotation stats are also quite impressive
+One thing to keep in mind is that i used vardict variant caller which is more commonly used for somatic mutations, although it is employed for germline variants too. might want to rerun with HaplotypeCaller in config file
