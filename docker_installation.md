@@ -87,9 +87,13 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 \
 
 Need to prepapre config file, amplicon file, and sample sheet.
 
+```bash
 docker run -it -v ~/biostar/NCB/pku2/:/home crukcibioinformatics/ampliconseq bash
 cd home/crukci_pipeline/
+curl -fsSL get.nextflow.io | bash
+mv nextflow /usr/sbin
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt
+```
 
 What I had to do manually:
 1) i copied sorted bam files from pku1 and pku2 launces into input folder
@@ -105,4 +109,37 @@ conda activate samtools
 for i in *.bam; do samtools index "$i"; done
 ```
 7) change ref genome version in config file to grch38  
-8) after i downloaded vep chache manually i added directory of vep cache to config file  
+8) after i downloaded vep chache manually i added directory of vep cache to config file
+9) i added profile to config file to allocate 30 gb of memory and 20 cpus to the process
+
+I could also run it outside of container like this but it has an issue with system permissions this way so i decided to keep using it in side docker
+```bash
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker
+```
+
+Config file:
+```
+params {
+    samples               = "input/sample_sheet.tsv"
+    amplicons             = "input/amplicons.tsv"
+    referenceGenomeFasta  = "../ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
+    vepAnnotation         = true
+    vepCacheDir           = "vep_cache/"
+    vepSpecies            = "homo_sapiens"
+    vepAssembly           = "GRCh38"
+    outputDir             = "results"
+    variantCaller         = "vardict"
+    minimumAlleleFraction = 0.01
+}
+
+profiles {
+    myprofile {
+        process.executor = 'local'
+        executor {
+            cpus = 20
+            memory = 32.GB
+        }
+        docker.enabled = true
+    }
+}
+```
