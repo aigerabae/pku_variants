@@ -96,7 +96,7 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt
 ```
 
 What I had to do manually:
-1) i copied sorted bam files from pku1 and pku2 launces into input folder
+1) i copied sorted bam files from pku1 and pku2 launces into input folder (I initially used unsorted and that didn't work well)
 2) i had to add paths to those bam files in sample sheets
 3) i duplicated dict file in ref genome and renamed it to have the same name as main ref file
 4) changed chromosomes in amplicon file to chr12 instead of just 12
