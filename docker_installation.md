@@ -1,3 +1,5 @@
+To get amplicon and sample sheet files i had to do some additional work. To get amplicon file I requested primers that they used; then I inspected them and found that they have tails that are the same for all of the multiplexed primers usd. i stripped off those tails and ran blast on alkl of them to determine amplicon target start and end, as well as primer start and and end. For sample sheet i made sure that the same samples get different ids but the same sample
+
 Installing docker:
 ```bash
 # Add Docker's official GPG key:
