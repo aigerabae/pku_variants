@@ -156,3 +156,34 @@ I initially ran it with defult vardict variantCaller option in config file but r
 ```bash
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker
 ```
+
+It didn't work because HaplottypeCaller requires @RG:SM tag in bam files:
+```bash
+conda create --override-channels -c conda-forge -c bioconda -c default -n picard picard
+conda activate picard
+mkdir -p bams_rg
+while IFS=$'\t' read -r LIB SAMPLE BAM; do
+    echo "Processing $LIB ($SAMPLE)"
+    picard AddOrReplaceReadGroups \
+        -I "$BAM" \
+        -O "bams_rg/${LIB}.bam" \
+        -RGID "$LIB" \
+        -RGLB "$LIB" \
+        -RGPL ILLUMINA \
+        -RGPU "$LIB" \
+        -RGSM "$SAMPLE"m
+done < input/sample_sheet.tsv
+conda activate samtools
+for i in bams_rg/*.bam; do samtools index "$i"; done
+cp input/sample_sheet.tsv bams_rg/
+cp input/amplicons.tsv bams_rg/
+cp input/config.txt bams_rg/
+mv input/ unnamed_input/
+mv bams_rg/ input/
+```
+
+Continuing
+```bash
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker -resume
+```
+Probably because I changed the input files it doesn't let me just resume where it stopped, so it started over not using cache from previous files. Let's see if it works!
