@@ -122,13 +122,6 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c input/config.txt -resum
 ```
 
 
-
-I could also run it outside of container like this but it has an issue with system permissions this way so i decided to keep using it in side docker
-```bash
-nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker
-```
-
-
 Config file:
 ```
 params {
@@ -140,7 +133,7 @@ params {
     vepSpecies            = "homo_sapiens"
     vepAssembly           = "GRCh38"
     outputDir             = "results"
-    variantCaller         = "vardict"
+    variantCaller         = "HaplotypeCaller"
     minimumAlleleFraction = 0.01
 }
 
@@ -156,5 +149,8 @@ profiles {
 }
 ```
 
-It worked! I have a file with variants per individual, not exactly a vcf but I should make some use of it. annotation stats are also quite impressive
-One thing to keep in mind is that i used vardict variant caller which is more commonly used for somatic mutations, although it is employed for germline variants too. might want to rerun with HaplotypeCaller in config file
+
+I initially ran it with defult vardict variantCaller option in config file but realized its better to use GATK HaplotypeCaller. So i reran it with HaplotypeCaller outside of container like this; when i started it in the same work and result directories that earlier worked inside docker it didn't work but start it clean and it works.
+```bash
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker
+```
