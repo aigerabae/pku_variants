@@ -187,3 +187,5 @@ Continuing
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -config input/config.txt -with-docker -resume
 ```
 Probably because I changed the input files it doesn't let me just resume where it stopped, so it started over not using cache from previous files. Let's see if it works!
+
+After it gave results it flagged a lto of variants with StrandOddsRatio. Variants flagged with high StrandOddsRatio (SOR) were manually reviewed. Given the nature of the targeted amplicon design, unidirectional coverage in specific regions necessitated the inclusion of these calls when Allele Fractions were consistent with germline expectations (~0.5 or 1.0) and supported by high-quality alignments.
