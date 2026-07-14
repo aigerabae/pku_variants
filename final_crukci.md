@@ -69,9 +69,9 @@ Config file:
 params {
     samples               = "sample_sheet2.tsv"
     amplicons             = "amplicons.tsv"
-    referenceGenomeFasta  = "~/biostar/NCB/pku2/ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
+    referenceGenomeFasta  = "../ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
     vepAnnotation         = true
-    vepCacheDir           = "~/biostar/NCB/pku2/crukci_pipeline/vep_cache/"
+    vepCacheDir           = "../pku2/crukci_pipeline/vep_cache/"
     vepSpecies            = "homo_sapiens"
     vepAssembly           = "GRCh38"
     outputDir             = "results"
@@ -89,4 +89,9 @@ profiles {
         docker.enabled = true
     }
 }
+```
+
+The command:
+```
+nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c config.txt -with-docker
 ```
