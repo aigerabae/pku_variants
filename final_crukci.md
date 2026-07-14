@@ -61,19 +61,15 @@ done < sample_sheet.tsv
 
 conda activate samtools
 for i in bams_rg/*.bam; do samtools index "$i"; done
-cp input/sample_sheet.tsv bams_rg/
-cp input/amplicons.tsv bams_rg/
-cp input/config.txt bams_rg/
-mv input/ unnamed_input/
-mv bams_rg/ input/
 ```
 
+In sample_sheet i made sample_sheet2.tsv with bams_rg instead of sorted_bams
 Config file:
 ```
 params {
-    samples               = "sample_sheet.tsv"
+    samples               = "sample_sheet2.tsv"
     amplicons             = "amplicons.tsv"
-    referenceGenomeFasta  = "../ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
+    referenceGenomeFasta  = "~/biostar/NCB/pku2/ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
     vepAnnotation         = true
     vepCacheDir           = "~/biostar/NCB/pku2/crukci_pipeline/vep_cache/"
     vepSpecies            = "homo_sapiens"
