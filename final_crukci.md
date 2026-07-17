@@ -95,3 +95,9 @@ The command:
 ```
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c config.txt -with-docker
 ```
+
+VEP web interface is giving error so i will run command line version:
+```
+docker pull ensemblorg/ensembl-vep
+docker run -v $(pwd):/data ensemblorg/ensembl-vep vep --database -i /data/rsids.csv -o /data/output.vcf
+```
