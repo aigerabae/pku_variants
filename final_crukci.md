@@ -118,3 +118,5 @@ python3 recoder_json_to_vcf input.json vr_output.vcf
 ```
 
 Didn't have one of the needd columns and search wasn't complete so i used annotation i got for the previous run and thankfully it contained all variants from current run; 2 variants (rsIDs) weren't present in the current run but were were present in the previous so I copied vr_output.vcf from previous run and deleted those rows manully (5 rows in total)
+
+I then followed steps in rescuing_variants.ipynb and variant_annotation.ipynb as before; i had to copy variants_final_rescued.csv as variants_color_coded.csv but that's it. I then imported the final output_w_annotation.tsv into google sheets and deleted some columns that weren't important (can find them in the original xlsx file)
