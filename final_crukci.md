@@ -42,7 +42,6 @@ done < pairs.txt
 
 I made a sample_sheet.tsv file using those bams and used amplicon file from the previous run
 
-Didn't do this yet, need to adjust code:
 Adding @RG:SM tag in bam files:
 ```
 conda activate picard
