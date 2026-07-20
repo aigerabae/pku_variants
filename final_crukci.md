@@ -109,5 +109,12 @@ curl -s -X POST \
   -H 'Accept:text/x-vcf' \
   -d '{ "ids": ["rs772897","COSV108133564","rs1522306","COSV61015928","rs1126758","COSV61015935","rs2251905","COSV61016573","rs1718301","COSV61016577","rs2037639","rs1042503","CX056901","CX1618317","COSV61020278","rs2280615","rs17842947","CS135060","COSV61016895","rs1801153","rs2280616","rs62514903","CM930536","rs62508588","CM910283","CM993955","COSV107395880","rs5030861","rs772897","COSV108133564","rs1522306","COSV61015928","rs1126758","COSV61015935","rs2251905","COSV61016573","rs1718301","COSV61016577","rs2037639","rs1042503","CX056901","CX1618317","COSV61020278","rs2280615","rs17842947","CS135060","COSV61016895","rs1801153","rs2280616","rs62514903","CM930536","rs62508588","CM910283","CM993955","CM870016","COSV61018595","rs5030851","CM024140","CM910292","rs62514936","rs62507288","CS930851","CS930852","CS971839","rs5030849","CM910287","CM950891","COSV61020894","rs118092776","CM981427","COSV61020094"] }' \
   'https://rest.ensembl.org/variant_recoder/human?vcf_string=1&fields=hgvsg,hgvsc,hgvsp,spdi,id,synonyms,vcf_string,mane_select' \
-  -o output.vcf
+  -o input.json
 ```
+
+Custom script to make it vcf from json
+```
+python3 recoder_json_to_vcf input.json vr_output.vcf
+```
+
+Didn't have one of the needd columns and search wasn't complete so i used annotation i got for the previous run and thankfully it contained all variants from current run; 2 variants (rsIDs) weren't present in the current run but were were present in the previous so I copied vr_output.vcf from previous run and deleted those rows manully (5 rows in total)
