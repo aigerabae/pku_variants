@@ -1,4 +1,4 @@
-<img width="115" height="1212" alt="image" src="https://github.com/user-attachments/assets/8df2b43f-bdbf-4e85-9675-1e328cd1a592" />QC:
+QC:
 ```
 conda activate fastqc
 fastqc input/**
