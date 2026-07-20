@@ -95,13 +95,16 @@ The command:
 nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c config.txt -with-docker
 ```
 
-VEP web interface is giving error so i will run command line version:
+Next is annotating with VEP to get the mutations' clinical notation. 
+I first followed steps in rescuing_variants.ipynb and got a file rsids.csv that I tried putting into VEP web interface (as last time) but it is giving error so i will run command line version:
 ```
 docker pull ensemblorg/ensembl-vep
 docker run -v $(pwd):/data ensemblorg/ensembl-vep vep --database -i /data/rsids.csv -o /data/output.vcf
 ```
 
-RestAPI Ensembl:
+Still gives errors; their server must experience some problems
+
+I will use RestAPI Ensembl instead (I used rsIDs extracted in rescuing_variants.ipynb):
 ```
 curl -s -X POST \
   -H 'Content-type:application/json' \
@@ -116,6 +119,6 @@ Custom script to make it vcf from json
 python3 recoder_json_to_vcf input.json vr_output.vcf
 ```
 
-Didn't have one of the needd columns and search wasn't complete so i used annotation i got for the previous run and thankfully it contained all variants from current run; 2 variants (rsIDs) weren't present in the current run but were were present in the previous so I copied vr_output.vcf from previous run and deleted those rows manully (5 rows in total)
+Didn't have one of the needed columns and search wasn't complete so i used annotation i got for the previous run and thankfully it contained all variants from current run; 2 variants (rsIDs) weren't present in the current run but were were present in the previous so I copied vr_output.vcf from previous run and deleted those rows manully (5 rows in total)
 
-I then followed steps in rescuing_variants.ipynb and variant_annotation.ipynb as before; i had to copy variants_final_rescued.csv as variants_color_coded.csv but that's it. I then imported the final output_w_annotation.tsv into google sheets and deleted some columns that weren't important (can find them in the original xlsx file)
+I then followed steps in variant_annotation.ipynb as before; i had to copy variants_final_rescued.csv as variants_color_coded.csv but that's it. I then imported the final output_w_annotation.tsv into google sheets and deleted some columns that weren't important (can find them in the original xlsx file)
