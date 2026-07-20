@@ -96,7 +96,16 @@ nextflow run crukci-bioinformatics/ampliconseq -r 1.0 -c config.txt -with-docker
 ```
 
 Next is annotating with VEP to get the mutations' clinical notation. 
-I first followed steps in rescuing_variants.ipynb and got a file rsids.csv that I tried putting into VEP web interface (as last time) but it is giving error so i will run command line version:
+I first followed steps in rescuing_variants.ipynb
+
+Why?
+```
+After it gave results it flagged a lto of variants with StrandOddsRatio. Variants flagged with high StrandOddsRatio (SOR) were manually reviewed. Given the nature of the targeted amplicon design, unidirectional coverage in specific regions necessitated the inclusion of these calls when Allele Fractions were consistent with germline expectations (~0.5 or 1.0) and supported by high-quality alignments.
+
+Explanation: "To increase sensitivity, a heuristic rescue algorithm was applied to variants initially classified as 'Low Confidence.' Variants were promoted to 'High Confidence' if they met three criteria: (1) a primary read depth $\ge$100x; (2) a germline-consistent allele fraction (Heterozygous: 0.40–0.60; Homozygous: $\ge$0.90); and (3) a 'PASS' filter or an isolated 'StrandOddsRatio' (SOR) flag. The SOR inclusion accounts for the inherent directional bias of high-depth amplicon sequencing, preventing the loss of high-quality biological calls."
+```
+
+...and got a file rsids.csv that I tried putting into VEP web interface (as last time) but it is giving error so i will run command line version:
 ```
 docker pull ensemblorg/ensembl-vep
 docker run -v $(pwd):/data ensemblorg/ensembl-vep vep --database -i /data/rsids.csv -o /data/output.vcf
