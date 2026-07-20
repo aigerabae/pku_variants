@@ -1,4 +1,4 @@
-QC:
+<img width="115" height="1212" alt="image" src="https://github.com/user-attachments/assets/8df2b43f-bdbf-4e85-9675-1e328cd1a592" />QC:
 ```
 conda activate fastqc
 fastqc input/**
@@ -100,4 +100,14 @@ VEP web interface is giving error so i will run command line version:
 ```
 docker pull ensemblorg/ensembl-vep
 docker run -v $(pwd):/data ensemblorg/ensembl-vep vep --database -i /data/rsids.csv -o /data/output.vcf
+```
+
+RestAPI Ensembl:
+```
+curl -s -X POST \
+  -H 'Content-type:application/json' \
+  -H 'Accept:text/x-vcf' \
+  -d '{ "ids": ["rs772897","COSV108133564","rs1522306","COSV61015928","rs1126758","COSV61015935","rs2251905","COSV61016573","rs1718301","COSV61016577","rs2037639","rs1042503","CX056901","CX1618317","COSV61020278","rs2280615","rs17842947","CS135060","COSV61016895","rs1801153","rs2280616","rs62514903","CM930536","rs62508588","CM910283","CM993955","COSV107395880","rs5030861","rs772897","COSV108133564","rs1522306","COSV61015928","rs1126758","COSV61015935","rs2251905","COSV61016573","rs1718301","COSV61016577","rs2037639","rs1042503","CX056901","CX1618317","COSV61020278","rs2280615","rs17842947","CS135060","COSV61016895","rs1801153","rs2280616","rs62514903","CM930536","rs62508588","CM910283","CM993955","CM870016","COSV61018595","rs5030851","CM024140","CM910292","rs62514936","rs62507288","CS930851","CS930852","CS971839","rs5030849","CM910287","CM950891","COSV61020894","rs118092776","CM981427","COSV61020094"] }' \
+  'https://rest.ensembl.org/variant_recoder/human?vcf_string=1&fields=hgvsg,hgvsc,hgvsp,spdi,id,synonyms,vcf_string,mane_select' \
+  -o output.vcf
 ```
